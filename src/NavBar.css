@@ -1,0 +1,10 @@
+.navbar {
+    position: sticky;
+}
+.navbar-left {
+    float: left
+}
+
+.navbar-right {
+    float: right
+}

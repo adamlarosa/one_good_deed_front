@@ -1,26 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Login from './Login';
+import NavBar from './NavBar';
+import api from './services/api';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      currentUser: null
+    }
+  }
+
+
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      api.auth.getCurrentUser()
+        .then(resp => {
+          console.log('LocalStorge thinks user is: ', resp.user.fullname)
+          this.setState({
+            currentUser: resp.user.id
+          })
+      })
+    } else {
+      console.log('Nothing in localStorage')
+    }
+  }
+
+
+  setCurrentUser = (user) => {
+    this.setState({
+      currentUser: user
+    })
+  }
+
+  render() {
+    console.log('Application thinks userId is: ', this.state.currentUser)
+    return (
+      <div >
+        <NavBar /><br />
+        <Login setCurrentUser={this.setCurrentUser} />
+      </div>
+    );
+  }
 }
 
 export default App;
