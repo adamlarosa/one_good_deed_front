@@ -7,10 +7,10 @@ class NavBar extends Component {
         return (
             <div className='navbar'>
                 <div className='navbar-left'>
-                    LEFT!
+                    <button onClick={() => this.props.history.push('/signup') }>NEW USER</button>
                 </div>
                 <div className='navbar-right'>
-                    RIGHT!
+                    <button onClick={() => this.props.history.push('/login') }>SIGN IN</button>
                 </div>
             </div>
         )

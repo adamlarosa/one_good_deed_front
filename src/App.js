@@ -1,49 +1,123 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import './App.css';
-import Login from './Login';
-import NavBar from './NavBar';
 import api from './services/api';
+
+import NavBar from './NavBar';
+import Login from './Login';
+import NewUser from './NewUser'
+import Main from './Main'
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: null
+      user: null,
+      cases: []
     }
   }
-
-
   componentDidMount() {
     const token = localStorage.getItem('token');
     if (token) {
       api.auth.getCurrentUser()
         .then(resp => {
-          console.log('LocalStorge thinks user is: ', resp.user.fullname)
           this.setState({
-            currentUser: resp.user.id
+            user: {...resp.user}
           })
       })
+      fetch('http://localhost:3001/cases', {
+        headers: {
+          'Content-Type': 'application/json',
+          Accepts: 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(resp => resp.json())
+      .then(json => {
+        this.setState({
+          cases: json
+        })
+      })
+      this.props.history.push('/main')
+      //end of IF TOKEN TRUE  
     } else {
       console.log('Nothing in localStorage')
     }
   }
 
+  // setCurrentUser passed to Login & NewUser components 
+  setCurrentUser = (user) => { this.setState({user}) }
 
-  setCurrentUser = (user) => {
-    this.setState({
-      currentUser: user
-    })
-  }
+  //setCases = (cases) => { this.setState({cases}) }
+
+  logOut = () => {
+    localStorage.removeItem('token');
+    this.setState({ 
+      user: null,
+    });
+    this.props.history.push('/')
+  };
+
 
   render() {
-    console.log('Application thinks userId is: ', this.state.currentUser)
+    const { cases, user } = this.state
     return (
-      <div >
-        <NavBar /><br />
-        <Login setCurrentUser={this.setCurrentUser} />
-      </div>
+      <Fragment>
+
+        <Route
+          path='/'
+          render={routerProps => {
+            return (
+              <Fragment>
+                <NavBar {...routerProps} />
+              </Fragment>
+            );
+          }}
+        />
+
+        <br /><p />
+
+        <Route
+          path="/signup"
+          render={routerProps => {
+            return (
+              <Fragment>
+                <NewUser {...routerProps} 
+                  setCases={this.setCases}
+                  setCurrentUser={this.setCurrentUser} />
+              </Fragment>
+            );
+          }}
+        />
+
+        <Route
+          path="/login"
+          render={routerProps => {
+            return (
+              <Fragment>
+                <Login {...routerProps} 
+                  setCases={this.setCases}
+                  setCurrentUser={this.setCurrentUser} />
+              </Fragment>
+            );
+          }}
+        />
+
+        <Route
+          path="/main"
+          render={routerProps => {
+            return (
+              <Fragment>
+                <Main cases={cases} {...user} {...routerProps} />
+              </Fragment>
+            );
+          }}
+        />
+
+        <button onClick={this.logOut}>LOGOUT</button>
+      </Fragment>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

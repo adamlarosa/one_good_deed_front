@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.caseContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.caseCard {
+  margin: 20px;
+  border-style: solid;
+  text-align: center;
+}
+
+.caseInfo {
+  display: grid;
+  /* grid-template-columns: 1fr 1fr; */
+}

@@ -8,7 +8,7 @@ const headers = {
 };
 
 
-const create = (fullname, username, password) => {
+const create = (fullname, username, password, about) => {
   return fetch(`${API_ROOT}/users`, {
     method: 'POST',
     headers: {
@@ -17,9 +17,10 @@ const create = (fullname, username, password) => {
     },
     body: JSON.stringify({
       user: {
-        name: fullname, 
+        fullname: fullname, 
         username: username, 
-        password: password
+        password: password,
+        about: about
       }
     })
   })
