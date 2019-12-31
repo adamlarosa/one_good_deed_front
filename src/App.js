@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { Route, withRouter } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import './App.css';
 import api from './services/api';
-
 import NavBar from './NavBar';
 import Login from './Login';
 import NewUser from './NewUser'
 import Main from './Main'
+import FrontPage from './FrontPage'
 
 class App extends Component {
   constructor() {
@@ -45,10 +45,31 @@ class App extends Component {
     }
   }
 
-  // setCurrentUser passed to Login & NewUser components 
-  setCurrentUser = (user) => { this.setState({user}) }
+  // setCurrentUser passed to Login & NewUser components
+  // something totally wrong with this function.  Incorrectly sets state.
+  setCurrentUser = async (userLogin) => {
+    // let newUser = userLogin.user
+    // let newCases = userLogin.cases
+    console.log('userLogin', userLogin)
+    let newState = await this.setState((prevState) => {
+      return {...prevState, user: {...userLogin.user}}
+    })
+    this.props.history.push('/main')
+  }
 
-  //setCases = (cases) => { this.setState({cases}) }
+  // addToCases passed to Main
+  addToCases = (newCase) => {
+    let newCases = [...this.state.cases, newCase]
+    this.setState({cases: newCases}) 
+  }
+
+  // passed to Main to DrawCases to CaseCard
+  deleteCase = (id) => {
+    let newCases = [...this.state.cases]
+    let index = newCases.map((newCase) => newCase.id).indexOf(id)
+    newCases.splice(index, 1)
+    this.setState({cases: newCases})
+  }
 
   logOut = () => {
     localStorage.removeItem('token');
@@ -58,9 +79,9 @@ class App extends Component {
     this.props.history.push('/')
   };
 
-
   render() {
     const { cases, user } = this.state
+
     return (
       <Fragment>
 
@@ -69,16 +90,16 @@ class App extends Component {
           render={routerProps => {
             return (
               <Fragment>
-                <NavBar {...routerProps} />
+                <NavBar user={this.state.user} logOut={this.logOut} {...routerProps} />
               </Fragment>
             );
           }}
         />
 
         <br /><p />
-
+        <Switch>
         <Route
-          path="/signup"
+          exact path="/signup"
           render={routerProps => {
             return (
               <Fragment>
@@ -91,7 +112,7 @@ class App extends Component {
         />
 
         <Route
-          path="/login"
+          exact path="/login"
           render={routerProps => {
             return (
               <Fragment>
@@ -104,17 +125,27 @@ class App extends Component {
         />
 
         <Route
-          path="/main"
+          exact path="/main"
           render={routerProps => {
             return (
               <Fragment>
-                <Main cases={cases} {...user} {...routerProps} />
+                <Main
+                  deleteCase={this.deleteCase}
+                  addToCases={this.addToCases} 
+                  cases={cases} 
+                  {...user} 
+                  {...routerProps} 
+                />
               </Fragment>
             );
           }}
         />
-
-        <button onClick={this.logOut}>LOGOUT</button>
+        {!this.state.user ? 
+          <FrontPage />
+        :
+          null
+        }
+        </Switch>
       </Fragment>
     );
   }

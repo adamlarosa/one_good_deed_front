@@ -14,7 +14,7 @@ class DrawCases extends Component {
         const { cases } = this.props
         return (
             <div className='caseContainer'>
-                { cases.map((c,i) => <CaseCard key={i} info={c} />) }
+                { cases.map((c,i) => <CaseCard deleteCase={this.props.deleteCase} key={i} info={c} />) }
             </div>
         )
     }

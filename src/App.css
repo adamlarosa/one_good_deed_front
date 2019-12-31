@@ -52,3 +52,11 @@
   display: grid;
   /* grid-template-columns: 1fr 1fr; */
 }
+
+.frontpage-container {
+  text-align: center;
+}
+
+.frontpage-content {
+  display: inline-block;
+}

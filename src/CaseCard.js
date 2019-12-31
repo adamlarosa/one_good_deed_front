@@ -14,9 +14,6 @@ class CaseCard extends Component {
     }
 
     deleteCase = () => {
-        
-        console.log('DELETEME!')
-        
         const { id } = this.props.info
         let token = localStorage.getItem('token');
         fetch(`http://localhost:3001/cases/${id}`, {
@@ -27,8 +24,7 @@ class CaseCard extends Component {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(resp => resp.json())
-        .then(console.log)
+        this.props.deleteCase(id)
     }
 
     render() {
@@ -36,9 +32,9 @@ class CaseCard extends Component {
         return (
             <div id={id} className='caseCard'>
                 <div className='caseInfo'>
-                    Fullname: {fullname} <br />
+                    <b>{fullname}</b> <br />
                     Location:  {location} <br />
-                    Description: {description} <br />
+                    Description: {description}
                 </div>
 
                 <div className='addCommentBtn' >
@@ -49,7 +45,7 @@ class CaseCard extends Component {
                             'GO BACK'
                         }
                     </button>
-                </div>
+                </div><br/>
 
                 <div className='commentSection' >
                     <CommentContainer 

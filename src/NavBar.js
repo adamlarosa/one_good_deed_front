@@ -7,10 +7,32 @@ class NavBar extends Component {
         return (
             <div className='navbar'>
                 <div className='navbar-left'>
-                    <button onClick={() => this.props.history.push('/signup') }>NEW USER</button>
+                    {!this.props.user ?
+                        <button 
+                            onClick={() => this.props.history.push('/signup') }
+                        >
+                            NEW USER
+                        </button>
+                    :
+                        null
+                    }
+
                 </div>
                 <div className='navbar-right'>
-                    <button onClick={() => this.props.history.push('/login') }>SIGN IN</button>
+                    {!this.props.user ?
+                        <button 
+                            onClick={() => this.props.history.push('/login') }
+                        >
+                            SIGN IN
+                        </button>
+                    :
+                        <button
+                            onClick={() => this.props.logOut()}
+                        >
+                            LOGOUT
+                        </button>
+                    }
+
                 </div>
             </div>
         )

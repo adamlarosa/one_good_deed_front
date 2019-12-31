@@ -12,6 +12,12 @@ class Main extends Component {
             
         }
     }
+    componentDidMount() {
+        if (!this.props.user) {
+            this.props.history.push('/')
+        }
+    }
+
 
     //form for new cases
     submitForm = (e) => {
@@ -32,9 +38,9 @@ class Main extends Component {
                 }
             })
         })
-        .then(this.props.history.push('/main'))
-
-        
+        .then(resp => resp.json())
+        .then(json => this.props.addToCases(json.case))
+        this.setState({createButton: !this.state.createButton})
     }
     //html for form
     newCase = () => {
@@ -99,9 +105,12 @@ class Main extends Component {
             </button>
         } 
     }
+    // end new case form
 
-
-    render() {
+    render(){
+        // console.log('MAIN! props:',this.props,'STATE',this.state)
+        console.log('----------')
+        console.log('Main.js', this.props)
         return (
             <div className='main'>
                 
@@ -119,7 +128,7 @@ class Main extends Component {
                     this.newCase()
                 }<br/>
 
-                <DrawCases cases={this.props.cases}/>
+                <DrawCases deleteCase={this.props.deleteCase} cases={this.props.cases}/>
 
             </div>
         )

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 class DrawComments extends Component {
     constructor() {
         super();
@@ -42,9 +42,9 @@ class DrawComments extends Component {
 
     render() {
         return (
-            <div>
+            <Fragment>
                 {this.state.comments ? this.showComments(this.state.comments) : null }  
-            </div>
+            </Fragment>
         )
     }
 }
