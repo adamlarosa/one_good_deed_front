@@ -15,12 +15,6 @@ class Main extends Component {
             
         }
     }
-    // componentDidMount() {
-    //     if (!this.props.user) {
-    //         this.props.history.push('/')
-    //     }
-    // }
-
 
     //form for new cases
     submitForm = (e) => {
@@ -110,9 +104,6 @@ class Main extends Component {
     // end new case form
 
     render(){
-        // console.log('MAIN! props:',this.props,'STATE',this.state)
-        console.log('Main.js PROPS', this.props)
-        console.log('Main.js STATE', this.state)
         return (
             <div className='main'>
                 
