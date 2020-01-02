@@ -1,5 +1,6 @@
 .newUser-wrapper {
-    float: center
+    float: center;
+    background-color: rgb(153, 235, 128);
 }
 
 .newUser-form {

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import './App.css';
 import api from './services/api';
 import NavBar from './NavBar';
@@ -21,6 +21,7 @@ class App extends Component {
     if (token) {
       api.auth.getCurrentUser()
         .then(resp => {
+          console.log('didmountGetCurrentUser:', resp)
           this.setState({
             user: {...resp.user}
           })
@@ -45,17 +46,25 @@ class App extends Component {
     }
   }
 
+
+
+
   // setCurrentUser passed to Login & NewUser components
-  // something totally wrong with this function.  Incorrectly sets state.
-  setCurrentUser = async (userLogin) => {
-    // let newUser = userLogin.user
-    // let newCases = userLogin.cases
-    console.log('userLogin', userLogin)
-    let newState = await this.setState((prevState) => {
-      return {...prevState, user: {...userLogin.user}}
-    })
-    this.props.history.push('/main')
+  // ***************************************************************************
+  // Something totally wrong with this function.  Incorrectly sets state.
+  // When changing to mimic correct setState in componentDidMount app 
+  // fails to push to '/main'.
+  // ***************************************************************************
+  setCurrentUser = (userLogin) => {
+    console.log(userLogin)
+    //this is where it's wrong.  
+    this.setState({user: userLogin})
+    
+    // this.props.history.push('/main')
   }
+
+
+
 
   // addToCases passed to Main
   addToCases = (newCase) => {
@@ -75,15 +84,18 @@ class App extends Component {
     localStorage.removeItem('token');
     this.setState({ 
       user: null,
+      cases: []
     });
     this.props.history.push('/')
   };
 
   render() {
+    console.log('App.js STATE:', this.state)
     const { cases, user } = this.state
 
     return (
-      <Fragment>
+      <div className='App'>
+    
 
         <Route
           path='/'
@@ -97,14 +109,13 @@ class App extends Component {
         />
 
         <br /><p />
-        <Switch>
+        
         <Route
           exact path="/signup"
           render={routerProps => {
             return (
               <Fragment>
                 <NewUser {...routerProps} 
-                  setCases={this.setCases}
                   setCurrentUser={this.setCurrentUser} />
               </Fragment>
             );
@@ -117,7 +128,6 @@ class App extends Component {
             return (
               <Fragment>
                 <Login {...routerProps} 
-                  setCases={this.setCases}
                   setCurrentUser={this.setCurrentUser} />
               </Fragment>
             );
@@ -125,7 +135,7 @@ class App extends Component {
         />
 
         <Route
-          exact path="/main"
+          path="/main"
           render={routerProps => {
             return (
               <Fragment>
@@ -140,15 +150,11 @@ class App extends Component {
             );
           }}
         />
-        {!this.state.user ? 
-          <FrontPage />
-        :
-          null
-        }
-        </Switch>
-      </Fragment>
-    );
-  }
+        { !this.state.user && <FrontPage /> }
+      
+      </div>    
+    );//end of return
+  }//end of render()
 }
 
 export default withRouter(App);

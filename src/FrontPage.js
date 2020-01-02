@@ -5,7 +5,10 @@ class FrontPage extends Component {
         return (
             <div className='frontpage-container'>
                 <div className='frontpage-content'>
-                    HELP THE LESS FORTUNATE
+                    <h1>One Good Deed</h1><br />
+                    One Good Deed is an app to help you keep track of people <br />
+                    you'd like to help.  Open a case on someone in need and update <br />
+                    your progress with comments.<br /><p />
                 </div>
 
 

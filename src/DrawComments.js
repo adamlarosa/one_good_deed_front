@@ -11,8 +11,9 @@ class DrawComments extends Component {
     }
 
     getComments = () => {
+        const { caseId } = this.props
         const token = localStorage.getItem('token');
-        const SERVER = `http://localhost:3001/comments?caseId=${this.props.caseId}`;
+        const SERVER = `http://localhost:3001/comments?caseId=${caseId}`;
         fetch(SERVER, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,9 +42,10 @@ class DrawComments extends Component {
     }
 
     render() {
+        const { comments } = this.state
         return (
             <Fragment>
-                {this.state.comments ? this.showComments(this.state.comments) : null }  
+                {this.state.comments ? this.showComments(comments) : null }  
             </Fragment>
         )
     }

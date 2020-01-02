@@ -5,7 +5,10 @@ class Main extends Component {
     constructor() {
         super();
         this.state = {
+            // createButton for conditional render of new case form
             createButton: true,
+
+            // new case form fields
             fullname: null,
             location: null,
             description: null,
@@ -45,8 +48,7 @@ class Main extends Component {
     //html for form
     newCase = () => {
         return (
-            <div>
-                Tell us about your case!
+            <div className='newCaseForm'>
                 <form>
                     <label>
                         Name:
@@ -109,8 +111,8 @@ class Main extends Component {
 
     render(){
         // console.log('MAIN! props:',this.props,'STATE',this.state)
-        console.log('----------')
-        console.log('Main.js', this.props)
+        console.log('Main.js PROPS', this.props)
+        console.log('Main.js STATE', this.state)
         return (
             <div className='main'>
                 

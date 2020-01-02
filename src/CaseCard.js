@@ -33,8 +33,8 @@ class CaseCard extends Component {
             <div id={id} className='caseCard'>
                 <div className='caseInfo'>
                     <b>{fullname}</b> <br />
-                    Location:  {location} <br />
-                    Description: {description}
+                    <b>Location:</b>  {location} <br />
+                    <b>Description:</b> {description}
                 </div>
 
                 <div className='addCommentBtn' >
@@ -49,7 +49,7 @@ class CaseCard extends Component {
 
                 <div className='commentSection' >
                     <CommentContainer 
-                        caseId={this.props.info.id} 
+                        caseId={id} 
                         showComments={this.state.showComments}
                         addComment={this.addComment}
                     />

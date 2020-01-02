@@ -29,19 +29,21 @@ class Login extends Component {
             if (!resp.message) {
                 localStorage.setItem('token', resp.jwt)
                 console.log('LOGIN', resp)
+
                 this.props.setCurrentUser(resp) //passed from App.js
+                this.props.history.push('/main')
+
             } else {
                 alert(resp.message)
             }
         })
-        .then(() => console.log())
     }
 
     render() {
-        const { inputChange } = this
+        const { inputChange, submitForm } = this
         return (
             <Fragment>
-                <form>
+                <form className='userLogin'>
                     <label>
                         Username:
                         <input onChange={(e) => inputChange(e)} type="text" name="username" />
@@ -50,7 +52,7 @@ class Login extends Component {
                         Password:
                         <input onChange={(e) => inputChange(e)} type="password" name="password" />
                     </label><br/>
-                    <input onClick={(e) => this.submitForm(e)} type="submit" value="LOGIN" />
+                    <input onClick={(e) => submitForm(e)} type="submit" value="LOGIN" />
                 </form>
             </Fragment>
         )
