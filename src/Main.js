@@ -15,11 +15,11 @@ class Main extends Component {
             
         }
     }
-    componentDidMount() {
-        if (!this.props.user) {
-            this.props.history.push('/')
-        }
-    }
+    // componentDidMount() {
+    //     if (!this.props.user) {
+    //         this.props.history.push('/')
+    //     }
+    // }
 
 
     //form for new cases

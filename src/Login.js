@@ -29,7 +29,6 @@ class Login extends Component {
             if (!resp.message) {
                 localStorage.setItem('token', resp.jwt)
                 console.log('LOGIN', resp)
-
                 this.props.setCurrentUser(resp) //passed from App.js
                 this.props.history.push('/main')
 

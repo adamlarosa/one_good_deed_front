@@ -49,18 +49,11 @@ class App extends Component {
 
 
 
-  // setCurrentUser passed to Login & NewUser components
-  // ***************************************************************************
-  // Something totally wrong with this function.  Incorrectly sets state.
-  // When changing to mimic correct setState in componentDidMount app 
-  // fails to push to '/main'.
-  // ***************************************************************************
-  setCurrentUser = (userLogin) => {
-    console.log(userLogin)
-    //this is where it's wrong.  
-    this.setState({user: userLogin})
-    
-    // this.props.history.push('/main')
+
+  setCurrentUser = (user) => {
+    console.log('let see what this is',user)
+    this.setState({user: user.user, cases: user.cases})
+    this.props.history.push('/main')
   }
 
 
